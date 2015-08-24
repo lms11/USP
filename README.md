@@ -1,4 +1,2 @@
-# Competitive Programming
-Disponibilizo aqui as soluções de exercícios que resolvi em online judges.
-
-**Estudo em especial para as maratonas de programação (competições de programação).**
+# Universidade de São Paulo
+Deixo aqui meus trabalhos e atividades que fiz durante minha graduação em engenharia da computação, na Poli-USP.
