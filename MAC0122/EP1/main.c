@@ -1,11 +1,20 @@
+/***************************************************************/
+/**                                                           **/
+/**   Luca Tornato Serafini                         9345064   **/
+/**   Lucas Moreira Santos                          9345064   **/
+/**   Exercício-Programa 01                                   **/
+/**   Professor:  Fernando Mário de Oliveira Filho            **/
+/**   MAC0122 - Princípios de Desenvolvimento de Algoritmos   **/
+/**                                                           **/
+/***************************************************************/
+
+/* Tente rodar o programa para o arquivo de entrada "testcase_google.fig" :D */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "processor.h"
 #include "graphics.h"
-
-// test case: 
-// test_in2.fig output.pgm 60 grid 3
 
 int main(int argc, char **argv) {
 	Drawing draw = create_drawing();

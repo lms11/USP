@@ -1,8 +1,12 @@
-/*
-  graphics.h
-
-  A simple graphics library.
-*/
+/***************************************************************/
+/**                                                           **/
+/**   Luca Tornato Serafini                         9345064   **/
+/**   Lucas Moreira Santos                          9345064   **/
+/**   Exercício-Programa 01                                   **/
+/**   Professor:  Fernando Mário de Oliveira Filho            **/
+/**   MAC0122 - Princípios de Desenvolvimento de Algoritmos   **/
+/**                                                           **/
+/***************************************************************/
 
 #ifndef __STACK_H__
 #define __STACK_H__
