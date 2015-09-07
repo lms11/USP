@@ -1,24 +1,80 @@
 #include <stdio.h>
-//#include <graphics.h>
+#include <stdlib.h>
+#include <string.h>
+#include "processor.h"
+#include "graphics.h"
 
-char input[1000][1000];
+// test case: 
+// test_in2.fig output.pgm 60 grid 3
 
 int main(int argc, char **argv) {
-	int t = 0;
+	Drawing draw = create_drawing();
+	FILE *in, *out;
+	int res, sample_type;
 
-	printf("INPUT:\n\n");
-	printf("input_file: %s\n", argv[0]);
-	printf("output_file: %s\n", argv[1]);
-	printf("pix_per_unit: %s\n", argv[2]);
-	printf("sample_type: %s\n", argv[3]);
-	printf("sample_size: %s\n", argv[4]);
+	if (argc < 6) {
+		printf("usage: draw <infile> <outfile> <pix_per_unit> <sample_type> <sample_size>\n\n");
+		printf("- infile -- input file.\n");
+		printf("- outfile -- output file.\n");
+		printf("- pix_per_unit -- number of pixels per unit.\n");
+		printf("- sample_type -- either 'grid', for uniform grid, or 'random' for random sample.\n");
+		printf("- sample_size -- size of sample.\n\n");
 
-	while(scanf(" %s", input[t++]) != EOF);
+		printf("operations available:");
+		for(int x = 0; x < N_OPS_AVAILABLE; x++) printf(" %s", OPS_AVAILABLE[x]);
 
-	printf("\n\n\n\n");
-	for (int i = 1; i <= t; ++i) {
-		printf("Word %d: %s\n", i, input[i-1]);
+		printf("\n\neaster egg: try to generate an image from google.fig\n");
+
+		return 0;
 	}
+
+	if (!draw) {
+		printf("Erro ao alocar novo desenho. Terminando o programa.\n");
+		exit(0);
+	}
+
+	// in = fopen(argv[1], "r");
+	in = fopen(argv[1], "r");
+	if (!in) {
+		printf("Erro ao abrir arquivo de entrada. Terminando o programa.\n");
+		exit(0);
+	}
+
+	// out = fopen(argv[2], "rw");
+	out = fopen(argv[2], "w");
+	if (!out) {
+		printf("Erro ao abrir arquivo de saida. Terminando o programa.\n");
+		exit(0);
+	}
+
+	res = processInput(draw, in);
+
+	if (res >= PROCESSOR_ERROR_UNKNOWN) {
+		printf("Erro ao processar arquivo de entrada. Terminando o programa.\n");
+		exit(0);
+	}
+
+	sample_type = (strcmp(argv[4], "grid") == 0) ? GRID_SAMPLE : RANDOM_SAMPLE;
+	res = save_pgm(draw, atoi(argv[3]), sample_type, atoi(argv[5]), out);
+
+	if (res >= 1) {
+		switch (res) {
+			case 1:
+				printf("A imagem está vazia (não há nenhum segmento ou circulo). Terminando o programa.\n");;
+				break;
+			case 2:
+				printf("Erro ao alocar memória. Terminando o programa.\n");
+				break;
+			default:
+				printf("Erro desconhecido. Terminando o programa.\n");
+				break;
+		}
+
+		exit(0);
+	}
+
+	fclose(in);
+	fclose(out);
 
 	return 0;
 }

@@ -7,15 +7,20 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 
+
 // Max size of string
 #define STACK_STRING_LENGTH   30
 
-
-// Stack object.
+// Stack's item object.
 typedef struct stack_struct *Stack;
 
-// Stack's item object.
-typedef struct stack_item_struct *StackItem;
+// Stack object.
+typedef struct stack_struct {
+  int size;
+  double value;
+  struct stack_struct *next;
+} StackItem;
+
 
 /*
   Creates an empty stack and returns it.
@@ -38,13 +43,12 @@ void stack_destroy(Stack s);
 
   Returns nonzero on success, zero if it fails to add the item.
 */
-int stack_push(Stack s, char string[]);
-int stack_push_number(Stack s, double value);
+int stack_push(Stack s, double value);
 
 /*
   Remove stack's top element and return it
 */
-StackItem stack_pop(Stack s);
+double stack_pop(Stack s);
 
 /*
   Returns stack's size
