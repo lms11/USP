@@ -1,7 +1,8 @@
 /***************************************************************/
 /**                                                           **/
-/**   Luca Tornato Serafini                         9345064   **/
+/**   Luca Tornato Serafini                         9373434   **/
 /**   Lucas Moreira Santos                          9345064   **/
+/**   Víctor de Sousa Lamarca                       9345922   **/
 /**   Exercício-Programa 01                                   **/
 /**   Professor:  Fernando Mário de Oliveira Filho            **/
 /**   MAC0122 - Princípios de Desenvolvimento de Algoritmos   **/

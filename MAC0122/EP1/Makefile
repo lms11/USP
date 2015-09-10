@@ -1,4 +1,4 @@
-cc = gcc
+CC = gcc
 CFLAGS = -Wall --std=c99 -g
 
 draw: main.o graphics.o stack.o processor.o
