@@ -321,6 +321,7 @@ int save_pgm(Drawing D, int pix_per_unit, int sample_type, int sample_size, FILE
 								x_ij = i + 1.0 * l / (sample_size + 1.0);
 								
 								dist = distanceBetweenPointAndSegment(x_ij, y_ij, ls->x1, ls->y1, ls->x2, ls->y2);
+								printf("Distancia: %lf <= %lf\n", dist, ls->thickness);
 
 								if (dist <= ls->thickness)
 									n++;
@@ -416,7 +417,8 @@ int save_pgm(Drawing D, int pix_per_unit, int sample_type, int sample_size, FILE
 		layer = layer->next;
 	}
 
-	/* REDEFINIR OS LIMITES DA IMAGEM É NECESSÁRIO DEVIDO A OPERAÇÃO DE BORRACHA */
+/*
+	/* REDEFINIR OS LIMITES DA IMAGEM É NECESSÁRIO DEVIDO A OPERAÇÃO DE BORRACHA/
 	for (y1 = 0; y1 < H; y1++) {
 		for (j = 0; j < W; j++)
 			if (matrix[(int)y1][j] != 255) break;
@@ -444,16 +446,16 @@ int save_pgm(Drawing D, int pix_per_unit, int sample_type, int sample_size, FILE
 
 		if (j < H && matrix[j][(int)x2] != 255) break;
 	}
-
+*/
 
 
 
 	fprintf(outfile, "P2\n");
-	fprintf(outfile, "%d %d\n", (int)(x2 - x1), (int)(y2 - y1));
+	fprintf(outfile, "%d %d\n", W, H);
 	fprintf(outfile, "255\n");
 
-	for(i = y1; i < y2; i++) {
-		for (j = x1; j < x2; j++) {
+	for(i = 0; i < H; i++) {
+		for (j = 0; j < W; j++) {
 			fprintf(outfile, "%d ", matrix[i][j]);
 		}
 		fprintf(outfile, "\n");

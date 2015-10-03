@@ -381,7 +381,7 @@ int process_mtranslate(Stack s) {
 int process_rotate_general(Stack s, int n, PROCESSOR_RESULT result) {
 	double theta, x, y;
 	StackItem *cur;
-	if (stack_size(s) < 2 * (n + 1)) {
+	if (stack_size(s) < 2 * n + 1) {
 		return throw_error("Impossivel realizar operação. Motivo: há menos elementos na pilha do que o necessário (stack underflow).\n", result);
 	}
 
