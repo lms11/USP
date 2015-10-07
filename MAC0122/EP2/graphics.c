@@ -2,7 +2,7 @@
 /**                                                           **/
 /**   Luca Tornato Serafini                         9373434   **/
 /**   Lucas Moreira Santos                          9345064   **/
-/**   Víctor de Sousa Lamarca                       9345922   **/
+/**   Mardem Humberto Santos Junior 				9065976   **/
 /**   Exercício-Programa 01                                   **/
 /**   Professor:  Fernando Mário de Oliveira Filho            **/
 /**   MAC0122 - Princípios de Desenvolvimento de Algoritmos   **/
@@ -169,14 +169,17 @@ double distanceBetweenPointAndSegment(double x, double y, double x1, double y1, 
     if (param < 0 || (x1 == x2 && y1 == y2)) {
         X = x1;
         Y = y1;
+
     }
     else if (param > 1) {
         X = x2;
         Y = y2;
+    
     }
     else {
         X = x1 + param * C;
         Y = y1 + param * D;
+    
     }
 
     return distance(x, y, X, Y);
@@ -194,9 +197,20 @@ int save_pgm(Drawing D, int pix_per_unit, int sample_type, int sample_size, FILE
 	List *layer;
 	LineSegment *ls;
 	Circle *cr;
-	double x1, x2, y1, y2, x_ij, y_ij, xmin, xmax, ymin, ymax;
-	double dist, val, height, tangent, tmp;
-	int H, W, i, imax, j, jmax, k, l, n, vertical;
+
+	double	x1 = 0.0, x2 = 0.0, 
+			y1 = 0.0, y2 = 0.0, 
+			x_ij = 0.0, y_ij = 0.0, 
+			xmin = 0.0, xmax = 0.0, 
+			ymin = 0.0, ymax = 0.0,
+			dist = 0.0, val = 0.0, 
+			height = 0.0, tangent = 0.0, 
+			tmp = 0.0;
+
+	int H = 0, W = 0, i = 0,
+		imax = 0, j = 0, jmax = 0, 
+		k = 0, l = 0, n = 0, vertical = 0;
+
 	int **matrix, *content;
 	char answer[4];
 
@@ -278,7 +292,7 @@ int save_pgm(Drawing D, int pix_per_unit, int sample_type, int sample_size, FILE
 		return MEMORY_ERROR;
 	}
 
-	for (int i = 0; i < H; i++) {
+	for (i = 0; i < H; i++) {
 		matrix[i] = &(content[i * W]);
 
 		for (int j = 0; j < W; j++) {
@@ -314,7 +328,7 @@ int save_pgm(Drawing D, int pix_per_unit, int sample_type, int sample_size, FILE
 
 			}
 			
-			for (; i < imax; i++) {
+			for (; i <= imax; i++) {
 				if (vertical) {
 					j 		= floor(ymin - ls->thickness);
 					jmax	=  ceil(ymax + ls->thickness);
@@ -328,20 +342,19 @@ int save_pgm(Drawing D, int pix_per_unit, int sample_type, int sample_size, FILE
 						j 		= floor(ymax - ls->thickness);
 						jmax 	= ceil(ymax + ls->thickness);
 
-					} else if (tangent > 0) {
-						tmp 	= (i - xmin + 1) * tangent;
-						j 		= max(floor(ymin + tmp - height), 0);
-						jmax 	= min(ceil(ymin + tmp + height), H-1);
-
 					} else {
-						tmp 	= -1 * (xmax - i - 1) * tangent;
-						j 		= max(floor(ymin + tmp - height), 0);
-						jmax 	= min(ceil(ymin + tmp + height), H-1);
+						if (tangent > 0)
+							tmp = (i - xmin + 1) * tangent;
+						else
+							tmp = (xmax - i - 1) * fabs(tangent);
 
+						j 		= max(floor(ymin + tmp - height), 0);
+						jmax 	= min(ceil(ymin + tmp + height), H - 1);
+					
 					}
 				}
 				
-				for (; j < jmax; j++) {
+				for (; j <= jmax; j++) {
 					n = 0;
 					
 					if (sample_type == GRID_SAMPLE) {

@@ -1,6 +1,8 @@
 /***************************************************************/
 /**                                                           **/
+/**   Luca Tornato Serafini                         9373434   **/
 /**   Lucas Moreira Santos                          9345064   **/
+/**   Mardem Humberto Santos Junior 				9065976   **/
 /**   Exercício-Programa 01                                   **/
 /**   Professor:  Fernando Mário de Oliveira Filho            **/
 /**   MAC0122 - Princípios de Desenvolvimento de Algoritmos   **/
@@ -14,6 +16,7 @@
 
 // Variaveis globais
 Node **curNode;
+int elements[20], p[20], v_copy[20];
 
 
 // Função auxiliar para trocar valores de dois inteiros
@@ -68,71 +71,80 @@ int qsort_compare_func(const void * a, const void * b) {
 }
 
 Node* process(char algorithm[20], int num_elements) {
-	Node *head = createNode();
+	if (num_elements > 20) return NULL;
 
-	int *elements = malloc(num_elements * sizeof(int));
-	if (!elements) exit(1); // TODO: melhorar retorno de erro
+	Node *head = createNode();
 
 	for (int x = 0; x < num_elements; x++) {
 		elements[x] = (x+1);
+		p[x] = 0;
 	}
 
-	processEachPermutation(algorithm, num_elements, elements, 0, head);
-	free(elements);
+	generatePermutations(algorithm, num_elements, elements, p, head);
 
 	return head;
 }
 
-void processEachPermutation(char algorithm[20], int num_elements, int *elements, int index, Node *head) {
-	if (num_elements == index) {
-		int *elem_cpy = malloc((num_elements + 1) * sizeof(int));
-		if (!elem_cpy) exit(1); // TODO: melhorar retorno de erro
+void processEachPermutation(int *elements, int num_elements, char *algorithm, Node *head) {
+	curNode = &head;
 
-		curNode = &head;
+	if (strcmp(algorithm, "heapsort") == 0) {
+		for (int x = 0; x < num_elements; x++) {
+			v_copy[x+1] = elements[x];
+		}
 
-		for (int x = 0; x <= num_elements; x++) {
-			elem_cpy[x] = elements[x];
+		ep_heapsort(v_copy, num_elements + 1);
+
+
+	} else {
+		for (int x = 0; x < num_elements; x++) {
+			v_copy[x] = elements[x];
 		}
 
 		if (strcmp(algorithm, "qsort") == 0) {
-			qsort(elements, num_elements, sizeof(int), qsort_compare_func);
+			qsort(v_copy, num_elements, sizeof(int), qsort_compare_func);
 
 		} else if (strcmp(algorithm, "selection_sort") == 0) {
-			selection_sort(elements, num_elements);
+			selection_sort(v_copy, num_elements);
 
 		} else if (strcmp(algorithm, "insertion_sort") == 0) {
-			insertion_sort(elements, num_elements);
+			insertion_sort(v_copy, num_elements);
 
 		} else if (strcmp(algorithm, "bubble_sort") == 0) {
-			bubble_sort(elements, num_elements);
+			bubble_sort(v_copy, num_elements);
 
 		} else if (strcmp(algorithm, "quicksort_random") == 0) {
+			ep_quicksort(v_copy, 0, num_elements - 1, 1);
 
 		} else if (strcmp(algorithm, "quicksort") == 0) {
+			ep_quicksort(v_copy, 0, num_elements - 1, 0);
 
 		} else if (strcmp(algorithm, "mergesort") == 0) {
-			ep_mergesort(elements, 0, num_elements);
-
-		} else if (strcmp(algorithm, "heapsort") == 0) {
-			ep_heapsort(elements, num_elements);
+			ep_mergesort(v_copy, 0, num_elements);
 
 		}
 
-
-		for (int x = 0; x < num_elements; x++) {
-			elements[x] = elem_cpy[x];
-		}
-
-		free(elem_cpy);
-
-		return;
 	}
+}
 
-	for (int j = index; j < num_elements; j++) {
-		swap(&elements[index], &elements[j]);
-		processEachPermutation(algorithm, num_elements, elements, index + 1, head);
-		swap(&elements[index], &elements[j]);
+void generatePermutations(char *algorithm, int num_elements, int *elements, int *p, Node *head) {
+	int i, j; 
 
+	i = 1;
+	processEachPermutation(elements, num_elements, algorithm, head);
+
+	while(i < num_elements) {
+		if (p[i] < i) {
+			j = i % 2 * p[i];
+			swap(&elements[j], &elements[i]);
+			p[i]++;
+			i = 1;
+
+			processEachPermutation(elements, num_elements, algorithm, head);
+
+		} else {               
+			p[i++] = 0;
+		}
 	}
 }
 
@@ -168,12 +180,35 @@ void bubble_sort(int *v, int n) {
 				swap(&v[j], &v[j+1]);
 }
 
-void quicksort_random(int *v, int n) {
+int separar(int *v, int p, int r) {
+	int x = v[r], 
+		i = p - 1, 
+		j = 0;
 
+	for (j = p; j < r; j++) {
+		if (less(v[j], x)) {
+			i++;
+			swap(&v[i], &v[j]);
+		}
+	}
+
+	swap(&v[i+1], &v[r]);
+
+	return i + 1;
 }
 
-void ep_quicksort(int *v, int n) {
+int separar_random(int *v, int p, int r) {
+	int random = rand() % (r - p) + p;
+	swap(&v[r], &v[random]);
+	return separar(v, p, r);
+}
 
+void ep_quicksort(int *v, int p, int r, int random) {
+	if (p < r) {
+		int q = random == 1 ? separar_random(v, p, r) : separar(v, p, r);
+		ep_quicksort(v, p, q - 1, random);
+		ep_quicksort(v, q + 1, r, random);
+	}
 }
 
 // Ordena no intervalo [p, q)

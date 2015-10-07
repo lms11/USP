@@ -1,6 +1,8 @@
 /***************************************************************/
 /**                                                           **/
+/**   Luca Tornato Serafini                         9373434   **/
 /**   Lucas Moreira Santos                          9345064   **/
+/**   Mardem Humberto Santos Junior 				9065976   **/
 /**   Exercício-Programa 01                                   **/
 /**   Professor:  Fernando Mário de Oliveira Filho            **/
 /**   MAC0122 - Princípios de Desenvolvimento de Algoritmos   **/

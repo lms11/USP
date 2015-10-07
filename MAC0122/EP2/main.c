@@ -45,6 +45,19 @@ int main(int argc, char **argv) {
 
 	}
 
+	if (strcmp(algorithm, "qsort") != 0 &&
+		strcmp(algorithm, "selection_sort") != 0 &&
+		strcmp(algorithm, "insertion_sort") != 0 &&
+		strcmp(algorithm, "bubble_sort") != 0 &&
+		strcmp(algorithm, "quicksort_random") != 0 &&
+		strcmp(algorithm, "quicksort") != 0 &&
+		strcmp(algorithm, "mergesort") != 0 &&
+		strcmp(algorithm, "heapsort") != 0) {
+
+		printf("Algoritmo inválido. Terminando o programa...\n");
+		return 0;
+	}
+
 	out = fopen(outfile, "w");
 	if (!out) {
 		printf("Erro ao abrir arquivo de saida. Terminando o programa.\n");
