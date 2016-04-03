@@ -14,9 +14,14 @@
 #include <string.h>
 #include "tree.h"
 
+#define MIN(a, b) ((a < b) ? a : b)
+#define MAX(a, b) ((a > b) ? a : b)
+
 // Variaveis globais
-Node **curNode;
+Node *curNode;
 int elements[20], p[20], v_copy[20];
+int cmp_min, cmp_max, cmp_sum, cmp_cur;
+long long int cmp_num;
 
 
 // Função auxiliar para trocar valores de dois inteiros
@@ -38,17 +43,19 @@ Node* createNode() {
 
 void changeCurNode(int a, int b) {
 	if (a < b) {
-		if (!((*curNode)->left))
-			(*curNode)->left = createNode();
+		if (!(curNode->left))
+			curNode->left = createNode();
 		
-		*curNode = (*curNode)->left;
+		curNode = curNode->left;
 
 	} else {
-		if (!((*curNode)->right))
-			(*curNode)->right = createNode();
+		if (!(curNode->right))
+			curNode->right = createNode();
 		
-		*curNode = (*curNode)->right;
+		curNode = curNode->right;
 	}
+
+	cmp_cur++;
 }
 
 int less(int a, int b) {
@@ -74,26 +81,45 @@ Node* process(char algorithm[20], int num_elements) {
 	if (num_elements > 20) return NULL;
 
 	Node *head = createNode();
+	cmp_sum = 0;
+	cmp_num = 0;
+	cmp_min = 2000000000;
+	cmp_max = -1;
 
-	for (int x = 0; x < num_elements; x++) {
+	for (int x = 0; x <= num_elements; x++) {
 		elements[x] = (x+1);
 		p[x] = 0;
 	}
 
 	generatePermutations(algorithm, num_elements, elements, p, head);
 
+	printf("Statistics of this run:\n");
+	printf("Min. # of comparisons: %d\n", cmp_min);
+	printf("Max. # of comparisons: %d\n", cmp_max);
+	printf("Avg. # of comparisons: %lf\n", 1.0 * cmp_sum / cmp_num);
+
 	return head;
 }
 
 void processEachPermutation(int *elements, int num_elements, char *algorithm, Node *head) {
-	curNode = &head;
+	curNode = head;
+	cmp_cur = 0;
 
 	if (strcmp(algorithm, "heapsort") == 0) {
+		printf("Permutação %lld\nAntes: ", cmp_num+1);
 		for (int x = 0; x < num_elements; x++) {
 			v_copy[x+1] = elements[x];
+			printf("%d ", v_copy[x+1]);
 		}
+		printf("\n");
 
-		ep_heapsort(v_copy, num_elements + 1);
+		ep_heapsort(v_copy, num_elements);
+
+		printf("Depois: ");
+		for (int x = 0; x < num_elements; x++) {
+			printf("%d ", v_copy[x+1]);
+		}
+		printf("\n\n");
 
 
 	} else {
@@ -123,8 +149,12 @@ void processEachPermutation(int *elements, int num_elements, char *algorithm, No
 			ep_mergesort(v_copy, 0, num_elements);
 
 		}
-
 	}
+	
+	cmp_min = MIN(cmp_min, cmp_cur);
+	cmp_max = MAX(cmp_max, cmp_cur);
+	cmp_sum += cmp_cur;
+	cmp_num++;
 }
 
 void generatePermutations(char *algorithm, int num_elements, int *elements, int *p, Node *head) {
@@ -174,10 +204,20 @@ void insertion_sort(int *v, int n) {
 }
 
 void bubble_sort(int *v, int n) {
-	for (int i = n-1; i > 0; i--)
+	int changed;
+	
+	for (int i = n-1; i > 0; i--) {
+		changed = 0;
+
 		for (int j = 0; j < i; j++)
-			if (greater(v[j], v[j+1]))
+			if (greater(v[j], v[j+1])) {
 				swap(&v[j], &v[j+1]);
+				changed = 1;
+			}
+
+		if (!changed)
+			break;
+	}
 }
 
 int separar(int *v, int p, int r) {
@@ -217,27 +257,27 @@ void ep_mergesort(int *v, int p, int q) {
 	if (p < q - 1) {
 		int r = (p + q) / 2;
 		ep_mergesort(v, p, r);
-		ep_mergesort(v, r+1, q);
+		ep_mergesort(v, r, q);
 		merge(v, p, r, q);
 	}
 }
 
-void merge(int *v, int p, int q, int r) {
+void merge(int *v, int p, int r, int q) {
 	int i, j, k, *aux;
-	aux = malloc((r - p) * sizeof(int));
+	aux = malloc((q - p) * sizeof(int));
 	i = p;
-	j = q;
+	j = r;
 	k = 0;
 
-	while (i < q && j < r) {
+	while (i < r && j < q) {
 		if (greater(v[i], v[j])) aux[k++] = v[j++];
 		else aux[k++] = v[i++];
 	}
 
-	while (i < q) aux[k++] = v[i++];
-	while (j < r) aux[k++] = v[j++];
+	while (i < r) aux[k++] = v[i++];
+	while (j < q) aux[k++] = v[j++];
 	
-	for (i = p; i < r; i++) {
+	for (i = p; i < q; i++) {
 		v[i] = aux[i-p];
 	}
 
@@ -245,7 +285,8 @@ void merge(int *v, int p, int q, int r) {
 }
 
 void heap_peneira(int *v, int p, int m) {
-	int f = 2*p, x = v[p];
+	int f = 2*p,
+		x = v[p];
 	
 	while (f <= m) {
 		if (f < m && less(v[f], v[f+1])) 
@@ -273,3 +314,7 @@ void ep_heapsort(int *v, int n) {
 		heap_peneira(v, 1, m-1);
 	}
 }
+
+
+
+
