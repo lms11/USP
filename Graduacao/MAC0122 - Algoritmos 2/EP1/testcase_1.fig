@@ -1,0 +1,29 @@
+1 0
+1 0
+360 5 / deg rotate
+2 copy
+2 copy
+360 5 / deg rotate
+2 copy
+2 copy
+360 5 / deg rotate
+2 copy
+2 copy
+360 5 / deg rotate
+2 copy
+2 copy
+360 5 / deg rotate
+20 copy
+42 deg 10 mrotate
+3 0 10 mtranslate
+1 pt line
+1 pt line
+1 pt line
+1 pt line
+1 pt line
+1 pt line
+1 pt line
+1 pt line
+1 pt line
+1 pt line
+0 0 1 0.5 pt + 0.5 pt circle

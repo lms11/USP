@@ -1,0 +1,23 @@
+1 2 +
+2 3 -
+4.5 5 *
+0 3 /
+3 2 /
+pi
+pi 2 / sin
+0 cos
+pi 2 / cos
+1.555 cm
+15.55 mm
+1 pt
+3 copy
+pi 4 / tan
+1 arcsin
+0 arcsin
+e
+4 lg
+e ln
+9 3 log
+-5 abs
+0 5 - abs
+show
