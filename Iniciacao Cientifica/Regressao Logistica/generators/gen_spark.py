@@ -19,6 +19,6 @@ if __name__ == "__main__":
 
 		for y in range(0, features):
 			feature_value = random.randint(0, 100)
-			print(" %d:%d" % (y+1, feature_value), end=" ")
+			print(" %d:%d" % (y+1, feature_value), end="")
 
 		print("")

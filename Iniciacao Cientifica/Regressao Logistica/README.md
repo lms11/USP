@@ -4,10 +4,8 @@ Objetivo: estimar o desempenho do algoritmo de regressão logística pelo Apache
 Para isso foram desenvolvidos 3 scripts:
 
 1. [Spark](spark.py): implementação do algoritmo utilizando somente o Apache Spark;
-2. [Spark com MLib](spark_mlib.py): implementação do algoritmo utilizando o Apache Spark e a MLib;
+2. [Spark com MLib](spark_mlib.py): implementação do algoritmo utilizando o Apache Spark e a biblioteca MLib;
 3. [MapReduce com MLib](hadoop.py): implementação do algoritmo utilizando MapReduce do Hadoop e MLib;
-
-
 
 ## Scripts
 Os scripts foram escritos em Python.
@@ -58,7 +56,7 @@ Hadoop:
 
 
 ## Resultados locais
-Os resultados locais foram computados em uma máquina com a seguinte configuração: OSX 10.11.6 - 2,5GHz i7 - 16GB memória - Python 2.7.10.
+Os resultados locais foram computados em uma máquina com a seguinte configuração: OSX 10.11.6 - 2,5GHz i7 - 16GB memória - Python 2.7.10. Os testes foram realizados com as frameworks nas versões Apache Spark v1.6.2 e Apache Hadoop v2.6.
 
 O tempo foi calculado executando:
 > time python {spark|spark_mlib|hadoop}.py data/{sample}.txt {10|100|1000}
