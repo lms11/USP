@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Lei Fraca dos Grandes Números</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body class="code-snippets-visible has-docked-nav">
+
+  <div class="container" id="intro">
+    <section class="header">
+      <h2 class="title">Lei Fraca dos Grandes Números</h2>
+      <div class="value-props row">
+        <div class="four columns value-prop">
+          <img class="value-img" src="images/university.svg">
+          Para a matéria MAE0119 - Introdução à Probabilidade e à Estatística da USP.
+        </div>
+        <div class="four columns value-prop">
+          <img class="value-img" src="images/two-men.svg">
+          Por Lucas Santos, Marcos Kawakami e Thiago Estrela.
+        </div>
+        <div class="four columns value-prop">
+          <img class="value-img" src="images/power-button.svg">
+          Para usar, preencha os dados abaixo e clique em "Simular".
+        </div>
+      </div>
+    </section>
+
+    <div class="docs-section" id="about">
+      <h6 class="docs-header">Sobre a lei</h6>
+      <p>A Lei Fraca dos Grandes Números, também chamada de Lei de Khinchin, estabelece que a média da amostra converge em probabilidade para o seu valor esperado.</p>
+    </div>
+
+    <div class="docs-section" id="form">
+      <h6 class="docs-header">Simule a lei</h6>
+      <p>O simulador permite variar dois parâmetros: o evento a ser testado (dado de 6 faces ou moeda) e o número de lançamentos.</p>
+      <div class="docs-example docs-example-forms">
+        <form>
+          <div class="row">
+            <div class="six columns">
+              <label for="exampleEmailInput">Número de lançamentos</label>
+              <input class="u-full-width" type="number" placeholder="1.000.000" id="numberInput">
+            </div>
+            <div class="six columns">
+              <label for="exampleRecipientInput">Tipo de evento</label>
+              <select class="u-full-width" id="typeInput">
+                <option value="dice">Dado com 6 faces</option>
+                <option value="coin">Moeda (cara ou coroa)</option>
+              </select>
+            </div>
+          </div>
+          <input class="button-primary" type="submit" value="Simular">
+        </form>
+      </div>
+    </div>
+
+    <div class="docs-section hide" id="simulation">
+      <h6 class="docs-header" id="simulation-header">Simulação - Dado de 6 faces e 1.000.000 de lançamentos</h6>
+      <div class="chart" id="container"></div>
+      <div class="chart" id="container-histogram"></div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/data.js"></script>
+  <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+  <script>
+    $("form").submit(function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+
+      var N = parseInt($('#numberInput').val().replace( /^\D+/g, ''));
+
+      if ($("#typeInput").val() == 'dice') {
+        generateDiceGraphData (N);
+        $('#simulation-header').text('Simulação - Dado de 6 faces e ' + N + ' lançamentos');
+
+      } else {
+        generateCoinGraphData (N);
+        $('#simulation-header').text('Simulação - Moeda (cara ou coroa) e ' + N + ' lançamentos');
+
+      }
+
+      $('#simulation').removeClass('hide');
+
+      return false;
+    });
+
+    function generateDiceGraphData (releases) {
+      var N = Math.floor(releases / 100);
+
+      if (N <= 0) N = 1;
+
+      var prob = [0, 0, 0, 0, 0, 0];
+      var probs = [[],[],[],[],[],[]];
+      var probsLabel = [];
+      var series = [];
+      var histogram = [];
+
+      for (var i = 0; i < releases; i++) {
+        var index = Math.floor(Math.random() * 6);
+        prob[index]++;
+
+        if (i % N == 0) {
+          probsLabel.push(i);
+
+          var sum = 0;
+          for (var j = 0; j < 6; j++) {
+            sum += prob[j];
+          }
+          for (var j = 0; j < 6; j++) {
+            probs[j].push(prob[j] / sum);
+          }
+        }
+      }
+
+      for (var i = 0; i < 6; i++) {
+        series.push({
+          name: "Face " + (i+1),
+          data: probs[i]
+        });
+
+        histogram.push({
+          name: "Face " + (i+1),
+          y: prob[i]
+        });
+      }
+
+      plotLineChart ('Probabilidade por face', series, probsLabel);
+      plotHistogramChart ('Faces', histogram);
+    }
+
+    function generateCoinGraphData (releases) {
+      var N = Math.floor(releases / 100);
+      var prob = [0, 0];
+      var probs = [[], []];
+      var probsLabel = [];
+      var series = [];
+      var histogram = [];
+
+      for (var i = 0; i < releases; i++) {
+        var index = Math.floor(Math.random() * 2);
+        prob[index]++;
+
+        if (i % N == 0) {
+          probsLabel.push(i);
+
+          var sum = 0;
+          for (var j = 0; j < 2; j++) {
+            sum += prob[j];
+          }
+          for (var j = 0; j < 2; j++) {
+            probs[j].push(prob[j] / sum);
+          }
+        }
+      }
+
+      for (var i = 0; i < 2; i++) {
+        var name;
+        if (i == 0) name = "Cara";
+        else name = "Coroa";
+
+        series.push({
+          name: name,
+          data: probs[i]
+        });
+
+        histogram.push({
+          name: name,
+          y: prob[i]
+        });
+      }
+
+      plotLineChart ('Probabilidade por lado', series, probsLabel);
+      plotHistogramChart ('Faces', histogram);
+    }
+
+    function plotLineChart (title, series, labels) {
+      Highcharts.chart('container', {
+        title: {
+          text: title,
+          x: -20 //center
+        },
+        xAxis: {
+            categories: labels,
+            tickInterval: 10
+        },
+        yAxis: {
+          title: { text: 'Probabilidade' },
+          plotLines: [{ value: 0, width: 1, color: '#808080' }],
+          min: 0,
+          max: 1,
+          tickInterval: 0.1
+        },
+        legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle',
+          borderWidth: 0
+        },
+        series: series
+      });
+    }
+
+    function plotHistogramChart (name, histogram) {
+      Highcharts.chart('container-histogram', {
+        chart: {
+          type: 'column'
+        },
+        title: {
+          text: 'Histograma'
+        },
+        xAxis: {
+          type: 'category'
+        },
+        yAxis: {
+          title: {
+            text: 'Frequência'
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        tooltip: {
+          headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+          pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
+        },
+        series: [{
+          name: name,
+          colorByPoint: true,
+          data: histogram
+        }]
+      });
+    }
+
+  </script>
+</body>
+</html>
