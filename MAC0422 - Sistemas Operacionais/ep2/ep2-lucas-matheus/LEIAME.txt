@@ -1,0 +1,18 @@
+Lucas Santos - 9345064
+Matheus Oliveira - 8642821
+
+Para compilar:
+> make
+
+Para remover os objetos e o executável do diretório:
+> make clear
+
+Para executar:
+> ./ep2 <D> <N> [v|u] <d>
+
+Legenda dos argumentos
+D - Tamanho da pista
+N - Número de ciclistas
+v - Ciclistas com velocidades aleatórias
+u - Ciclistas com velocidades constantes
+d - Para entrar no modo debug, o último argumento deve ser obrigatoriamente igual a 'd'

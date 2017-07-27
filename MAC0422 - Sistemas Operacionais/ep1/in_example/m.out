@@ -1,0 +1,28 @@
+1:  incomming - p0 p1 p2
+    p1 to cpu;
+2:  incomming - p3 p4
+    p1 hault
+    p3 to cpu
+3:  incomming - p5 p6
+    p3 hault 
+    p6 to cpu
+4:  incomming - p7 p8 p9
+6:  p6 over (on time)
+    p7 to cpu
+13: p7 over (NOT on time)
+    p3 to cpu
+28: p3 over (on time)
+    p9 to cpu
+44: p9 over (NOT on time)
+    p1 to cpu
+66: p1 over (NOT on time)
+    p2 to cpu
+88: p2 over (NOT on time)
+    p0 to cpu
+111:p0 over (NOT on time)
+    p5 to cpu
+138:p5 over (NOT on time)
+    p8 to cpu
+171:p8 over (NOT on time)
+    p4 to cpu
+208:p4 over (NOT on time)

@@ -1,0 +1,92 @@
+(t = 1.000000) Incoming job:
+===> trace line: 0 | name = p0 | t0 = 1.000000 | dt = 23.000000 | deadline = 49.000000 | remaining = 23.000000
+(t = 1.000000) Incoming job:
+===> trace line: 1 | name = p1 | t0 = 1.000000 | dt = 22.000000 | deadline = 30.000000 | remaining = 22.000000
+(t = 1.000000) Incoming job:
+===> trace line: 2 | name = p2 | t0 = 1.000000 | dt = 23.000000 | deadline = 28.000000 | remaining = 23.000000
+Job entering CPU:
+===> trace line: 1 | name = p1 | t0 = 1.000000 | dt = 22.000000 | deadline = 30.000000 | remaining = 22.000000
+(t = 2.000000) Incoming job:
+===> trace line: 3 | name = p3 | t0 = 2.000000 | dt = 15.000000 | deadline = 40.000000 | remaining = 15.000000
+(t = 2.000000) Incoming job:
+===> trace line: 4 | name = p4 | t0 = 2.000000 | dt = 37.000000 | deadline = 42.000000 | remaining = 37.000000
+Job leaving CPU:
+Job entering CPU:
+===> trace line: 1 | name = p1 | t0 = 1.000000 | dt = 22.000000 | deadline = 30.000000 | remaining = 21.000000
+===> trace line: 3 | name = p3 | t0 = 2.000000 | dt = 15.000000 | deadline = 40.000000 | remaining = 15.000000
+(t = 3.000000) Incoming job:
+===> trace line: 5 | name = p5 | t0 = 3.000000 | dt = 27.000000 | deadline = 29.000000 | remaining = 27.000000
+(t = 3.000000) Incoming job:
+===> trace line: 6 | name = p6 | t0 = 3.000000 | dt = 3.000000 | deadline = 12.000000 | remaining = 3.000000
+Job leaving CPU:
+===> trace line: 3 | name = p3 | t0 = 2.000000 | dt = 15.000000 | deadline = 40.000000 | remaining = 14.000000
+Job entering CPU:
+===> trace line: 6 | name = p6 | t0 = 3.000000 | dt = 3.000000 | deadline = 12.000000 | remaining = 3.000000
+(t = 4.000000) Incoming job:
+===> trace line: 7 | name = p7 | t0 = 4.000000 | dt = 7.000000 | deadline = 9.000000 | remaining = 7.000000
+(t = 4.000000) Incoming job:
+===> trace line: 8 | name = p8 | t0 = 4.000000 | dt = 33.000000 | deadline = 49.000000 | remaining = 33.000000
+(t = 4.000000) Incoming job:
+===> trace line: 9 | name = p9 | t0 = 4.000000 | dt = 16.000000 | deadline = 35.000000 | remaining = 16.000000
+Job leaving CPU:
+Job finished: p6 (trace line: 6)
+===> trace line: 6 | name = p6 | t0 = 3.000000 | dt = 3.000000 | deadline = 12.000000 | remaining = 2.000000
+Job entering CPU:
+===> trace line: 7 | name = p7 | t0 = 4.000000 | dt = 7.000000 | deadline = 9.000000 | remaining = 7.000000
+Job leaving CPU:
+Job finished: p7 (trace line: 7)
+===> trace line: 7 | name = p7 | t0 = 4.000000 | dt = 7.000000 | deadline = 9.000000 | remaining = 7.000000
+Job entering CPU:
+===> trace line: 3 | name = p3 | t0 = 2.000000 | dt = 15.000000 | deadline = 40.000000 | remaining = 14.000000
+Job finished: p3 (trace line: 3)
+Job leaving CPU:
+===> trace line: 3 | name = p3 | t0 = 2.000000 | dt = 15.000000 | deadline = 40.000000 | remaining = 14.000000
+Job entering CPU:
+===> trace line: 9 | name = p9 | t0 = 4.000000 | dt = 16.000000 | deadline = 35.000000 | remaining = 16.000000
+Job finished: p9 (trace line: 9)
+Job leaving CPU:
+===> trace line: 9 | name = p9 | t0 = 4.000000 | dt = 16.000000 | deadline = 35.000000 | remaining = 16.000000
+Job entering CPU:
+===> trace line: 1 | name = p1 | t0 = 1.000000 | dt = 22.000000 | deadline = 30.000000 | remaining = 21.000000
+Job leaving CPU:
+Job finished: p1 (trace line: 1)
+===> trace line: 1 | name = p1 | t0 = 1.000000 | dt = 22.000000 | deadline = 30.000000 | remaining = 21.000000
+Job entering CPU:
+===> trace line: 0 | name = p0 | t0 = 1.000000 | dt = 23.000000 | deadline = 49.000000 | remaining = 23.000000
+Job finished: p0 (trace line: 0)
+Job leaving CPU:
+===> trace line: 0 | name = p0 | t0 = 1.000000 | dt = 23.000000 | deadline = 49.000000 | remaining = 23.000000
+Job entering CPU:
+===> trace line: 2 | name = p2 | t0 = 1.000000 | dt = 23.000000 | deadline = 28.000000 | remaining = 23.000000
+Job finished: p2 (trace line: 2)
+Job leaving CPU:
+===> trace line: 2 | name = p2 | t0 = 1.000000 | dt = 23.000000 | deadline = 28.000000 | remaining = 23.000000
+Job entering CPU:
+===> trace line: 5 | name = p5 | t0 = 3.000000 | dt = 27.000000 | deadline = 29.000000 | remaining = 27.000000
+Job leaving CPU:
+Job finished: p5 (trace line: 5)
+===> trace line: 5 | name = p5 | t0 = 3.000000 | dt = 27.000000 | deadline = 29.000000 | remaining = 27.000000
+Job entering CPU:
+===> trace line: 8 | name = p8 | t0 = 4.000000 | dt = 33.000000 | deadline = 49.000000 | remaining = 33.000000
+Job finished: p8 (trace line: 8)
+Job leaving CPU:
+===> trace line: 8 | name = p8 | t0 = 4.000000 | dt = 33.000000 | deadline = 49.000000 | remaining = 33.000000
+Job entering CPU:
+===> trace line: 4 | name = p4 | t0 = 2.000000 | dt = 37.000000 | deadline = 42.000000 | remaining = 37.000000
+Job leaving CPU:
+Job finished: p4 (trace line: 4)
+===> trace line: 4 | name = p4 | t0 = 2.000000 | dt = 37.000000 | deadline = 42.000000 | remaining = 37.000000
+- trace line: 0 | name = p0 | t0 = 1.000000 | dt = 23.000000 | deadline = 49.000000 | remaining = 23.000000 | real time: 87
+- trace line: 1 | name = p1 | t0 = 1.000000 | dt = 22.000000 | deadline = 30.000000 | remaining = 21.000000 | real time: 64
+- trace line: 2 | name = p2 | t0 = 1.000000 | dt = 23.000000 | deadline = 28.000000 | remaining = 23.000000 | real time: 110
+- trace line: 3 | name = p3 | t0 = 2.000000 | dt = 15.000000 | deadline = 40.000000 | remaining = 14.000000 | real time: 27
+- trace line: 4 | name = p4 | t0 = 2.000000 | dt = 37.000000 | deadline = 42.000000 | remaining = 37.000000 | real time: 207
+- trace line: 5 | name = p5 | t0 = 3.000000 | dt = 27.000000 | deadline = 29.000000 | remaining = 27.000000 | real time: 137
+- trace line: 6 | name = p6 | t0 = 3.000000 | dt = 3.000000 | deadline = 12.000000 | remaining = 2.000000 | real time: 6
+- trace line: 7 | name = p7 | t0 = 4.000000 | dt = 7.000000 | deadline = 9.000000 | remaining = 7.000000 | real time: 13
+- trace line: 8 | name = p8 | t0 = 4.000000 | dt = 33.000000 | deadline = 49.000000 | remaining = 33.000000 | real time: 170
+- trace line: 9 | name = p9 | t0 = 4.000000 | dt = 16.000000 | deadline = 35.000000 | remaining = 16.000000 | real time: 43
+Olá, mundo! Lendo entrada.
+
+
+Escrevendo entrada na saída:

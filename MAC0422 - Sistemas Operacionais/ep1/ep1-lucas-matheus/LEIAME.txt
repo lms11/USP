@@ -1,0 +1,17 @@
+# Alunos
+Lucas Moreira Santos - nUSP 9345064
+Matheus de Mello Santos Oliveira - nUSP 8642821
+
+# Compilação
+Para compilar digite apenas: make
+
+# Shell
+Para executar o nosso shell, digite: ./ep1sh
+
+# Escalonador
+Para executar o nosso escalonador digite: 
+./ep1 [1/2/3] [arquivo de entrada] [arquivo de saida] [d/-d]
+Onde o primeiro argumento e o escalonador desejado, o segundo é o arquivo de entrada, o terceiro o arquivo de saída.
+Um quarto parâmetro, opcional, é o argumento que ativa o modo debug (para usa-lo, digite d ou -d).
+
+
