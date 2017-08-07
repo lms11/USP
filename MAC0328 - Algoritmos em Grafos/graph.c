@@ -1,79 +1,50 @@
-#import <stdlib.h>
+#include "graph.h"
 
-#define Vertex int
-
-struct graph {
-    int V;
-    int A;
-    int **adj;
-};
-typedef struct graph * Graph;
-
-/* Construtor: constroi uma matriz AxB com valores iniciais C em θ(AB) */
-int ** MATRIXInit (int A, int B, int C)
+/* Verifica se um vértice v é isolado em θ(V) para matriz ou O(V+A) para listas */
+int GRAPHisolated (Graph G, Vertex v)
 {
-    int ** M = malloc (sizeof (int **) * A);
-    int a, b;
-
-    for (a = 0; a < A; a++) {
-        M[a] = malloc (sizeof (int *) * B);
-
-        for (b = 0; b < B; b++) {
-            M[a][b] = C;
-        }
-    }
-
-    return M;
+    if (GRAPHindegree (G, v) == 0 && GRAPHoutdegree (G, v) == 0)
+        return 1;
+    else
+        return 0;
 }
 
-/* Construtor: cria um grafo de V vértices sem arcos em θ(V^2) */
-Graph GRAPHInit (int V)
+/* Método que verifica se v é fonte em θ(V) para matriz ou O(V) para listas */
+int GRAPHsource (Graph G, Vertex v)
 {
-    Graph G = malloc (sizeof * G);
-    G->V = V;
-    G->A = 0;
-    G->adj = MATRIXInit(V, V, 0);
-    return G;
+    if (GRAPHindegree (G, v) == 0)
+        return 1;
+    else
+        return 0;
 }
 
-/*  Método para inserir um arco v-w num grafo em θ(1) */
-void GRAPHInsertArc (Graph G, Vertex v, Vertex w)
+/* Metodo que verifica se v é sorvedouro em θ(V) para matriz ou O(V) para listas */
+int GRAPHsink (Graph G, Vertex v)
 {
-    if (v != w && G->adj[v][w] == 0) {
-        G->adj[v][w] = 1;
-        G->A++;
-    }
+    if (GRAPHoutdegree (G, v) == 0)
+        return 1;
+    else
+        return 0;
 }
 
-/* Método para remover um arco em θ(1) */
-void GRAPHRemoveArc (Graph G, Vertex v, Vertex w)
+/* Metodo que verifica se G é um torneio em O(V^2) para matriz ou O(V^3) para listas */
+int GRAPHtournament (Graph G)
 {
-    if (G->adj[v][w] == 1) {
-        G->adj[v][w] = 0;
-        G->A--;
-    }
-}
-
-/* Método que verifica se v é fonte em θ(V) */
-int GRAPHSource (Graph G, Vertex v)
-{
-    Vertex u = 0;
-    for (u = 0; u < G->V; u++) {
-        if (G->adj[u][v] == 1)
-            return 0;
-    }
+    Vertex v, w;
+    for (v = 0; v < GRAPHvertex (G); v++)
+        for (w = 0; w < GRAPHvertex (G); w++)
+            if (v == w)
+                continue;
+            else if ((GRAPHcheckArc (G, v, w) ^ GRAPHcheckArc (G, w, v)) == 0)
+                return 0;
     return 1;
 }
 
-/* Imprime um grafo em θ(V^2) */
-void GRAPHShow (Graph G)
+/* Metodo que verifica se G é completo em θ(1) */
+int GRAPHcomplete (Graph G)
 {
-    Vertex v, w;
-    for (v = 0; v < G->V; v++) {
-        printf ("%d: ", v);
-        for (w = 0; w < G->V; w++)
-            if (G->adj[v][w] == 1)
-                printf ("%d ", w);
-        printf ("\n");
-    }
+    if (GRAPHarc (G) == (GRAPHvertex (G) * (GRAPHvertex (G) - 1)))
+        return 1;
+    else
+        return 0;
 }
