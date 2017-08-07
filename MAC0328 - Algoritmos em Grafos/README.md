@@ -1,6 +1,5 @@
 # MAC0328 - Algoritmos em grafos
-Professor: Carlos Eduardo Ferreira
-Cursado no segundo semestre de 2017
+Matéria cursada no segundo semestre de 2017 e ministrada pelo professor Carlos Eduardo Ferreira.
 
 Aqui estão presente as implementações dos algoritmos vistos em aula.
 
