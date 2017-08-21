@@ -1,4 +1,5 @@
-#include "graph.h"
+#include <stdlib.h>
+#include "graph_builder.h"
 
 /* Constroi grafo complete em θ(V^2) para matriz ou θ(V^3) para listas */
 Graph GRAPHbuildComplete (int V)
@@ -22,7 +23,7 @@ Graph GRAPHbuildPath (int V)
 }
 
 /* Constroi grafo do rei no xadrez */
-Graph GRAPHbuildPath (int n)
+Graph GRAPHbuildChessKing (int n)
 {
     Graph G = GRAPHinit (n * n);
     Vertex l, c, i, j;

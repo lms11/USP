@@ -1,0 +1,237 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,amscd}
+\usepackage[table]{xcolor}
+\usepackage[margin=4cm]{geometry}
+\usepackage{ragged2e}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{csquotes}
+\usepackage{listings}
+\usepackage{float}
+
+\usepackage{color}
+%\usepackage[brazil]{babel}
+
+\newlength{\tabcont}
+\setlength{\parindent}{0.3in}
+\setlength{\parskip}{0.05in}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=2
+}
+
+\title{MAC0328 - Lista 1}
+\author{Lucas Santos}
+\date{Agosto 2017}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+    \item Primeiro é importante notar que um grafo com $V$ vértices possui $V * (V - 1)$ arcos diferentes. Para saber quantos grafos diferentes podemos formar com $V$ vértices e $A$ arcos, basta tomar a combinação de $V * (V - 1)$ arcos tomados $A$ a $A$.\\
+    $$C = \frac{n!}{p! * (n-p)!}$$\\
+    $$C = \frac{(V * (V - 1))!}{A! * (V * (V - 1) - A)!}$$
+    
+    \item Cada arco contribui com 1 na soma de graus de saída (e de entrada, também).
+    
+    \item 
+    \subitem (a) Para grafos usando matriz de adjacência (complexidade do tempo de execução $\theta(V^2)$):
+    \begin{lstlisting}
+        int GRAPHoriented (Graph G) {
+            Vertex v, w;
+            for (v = 0; v < G->V; v++)
+                for (w = v + 1; w < G->V; w++)
+                    if (G->adj[v][w] != G->adj[w][v])
+                        return 0;
+            return 1;
+        }
+    \end{lstlisting}
+    
+    \subitem (b) Para grafos usando listas de adjacência (complexidade do tempo de execução $O(V+A^2)$):
+    \begin{lstlisting}
+        int GRAPHoriented (Graph G) {
+            Vertex v;
+            link p, q;
+            for (v = 0; v < G->V; v++) {
+                for (p = G->adj[v]; p != NULL; p = p->next) {
+                    for (q = G->adj[p->w]; q != NULL && q->w != v; q = q->next);
+                    if (q == NULL)
+                        return 1;
+                }
+            }
+            return 0;
+        }
+    \end{lstlisting}
+    
+    \item Assumindo $G$ um grafo não-dirigido, então o grau de um vértice é o número de arestas no seu leque. Segue abaixo uma implementação em C.
+    \subitem (a) Para grafos usando matriz de adjacência (complexidade do tempo de execução $\theta(V)$):
+    \begin{lstlisting}
+        int GRAPHdeg (Graph G, int v) {
+            Vertex w;
+            int deg = 0;
+            for (w = 0; v < G->V; w++)
+                if (G->adj[v][w] == 1)
+                    deg++;
+            return deg;
+        }
+    \end{lstlisting}
+    
+    \subitem (b) Para grafos usando listas de adjacência (complexidade do tempo de execução $O(V)$):
+    \begin{lstlisting}
+        int GRAPHdeg (Graph G, int v) {
+            link p;
+            int deg = 0;
+            for (p = G->adj[v]; p != NULL; deg++, p = p->next);
+            return deg;
+        }
+    \end{lstlisting}
+    
+    \item
+    \subitem (a) Para grafos usando matriz de adjacência (complexidade do tempo de execução $\theta(V)$):
+    \begin{lstlisting}
+        int GRAPHisolated (Graph G, int v) {
+            Vertex w;
+            for (w = 0; w < G->V; w++)
+                if (G->adj[v][w] == 1 || G->adj[w][v] == 1)
+                    return 0;
+            return 1;
+        }
+    \end{lstlisting}
+    
+    \subitem (b) Para grafos usando listas de adjacência (complexidade do tempo de execução $O(V + A)$):
+    \begin{lstlisting}
+        int GRAPHisolated (Graph G, int v) {
+            Vertex w;
+            link p;
+            if (G->adj[v] != NULL)
+                return 0;
+            for (w = 0; w < G->V; w++)
+                for (p = G->adj[w]; p != NULL; p = p->next)
+                    if (p->w == v)
+                        return 0;
+            return 1;
+        }
+    \end{lstlisting}
+    
+    \item
+    \subitem (a) Para grafos usando matriz de adjacência (complexidade do tempo de execução $\theta(1)$):
+    \begin{lstlisting}
+        int GRAPHadj (Graph G, int v, int w) {
+            return G->adj[w][v];
+        }
+    \end{lstlisting}
+    
+    \clearpage
+    
+    \subitem (b) Para grafos usando listas de adjacência (complexidade do tempo de execução $O(V)$):
+    \begin{lstlisting}
+        int GRAPHadj (Graph G, int v, int w) {
+            Vertex w;
+            link p;
+            for (p = G->adj[w]; p != NULL; p = p->next)
+                if (p->w == v)
+                    return 1;
+            return 0;
+        }
+    \end{lstlisting}
+    
+    \item O código é o mesmo, independente se a estrutura de dados usadas para o grafo é matriz de adjacência ou listas de adjacência. A complexidade do tempo de execução, entretanto, é diferente. O primeiro é $\theta(V^2)$ enquanto o segundo é $O(V^3)$ e $\Omega(V^2)$. Note que a diferença na complexidade ocorre as diferenças de implementação da função que insere o arco. Segue o código em C:
+    \begin{lstlisting}
+        Graph GRAPHknightRand (int n) {
+            Graph G = GRAPHinit (n * n);
+            int x[8] = { -1, 1, 2, 2, 1, -1, -2, -2 };
+            int y[8] = { 2, 2, 1, -1, -2, -2, -1, 1 };
+            Vertex l, c;
+            Vertex v;
+            int i;
+            for (v = 0; v < n * n; v++) {
+                l = v / n;
+                c = v % n;
+                for (i = 0; i < 8; i++)
+                    GRAPHinsertArc (G, v, (l + x[i]) * n + (c + y[i]));
+            }
+            return G;
+        }
+    \end{lstlisting}
+    
+    \item Segue abaixo uma tabela com os valores de $V$ e $A$ assim como o tempo que foi gasto para construir o grafo $G$ com essas configuranções utilizando o construtor aleatório 1.
+    
+    \begin{table}[H]
+    \centering
+    \caption{exercício 8}
+    \label{my-label}
+    \begin{tabular}{rrc}
+    \hline
+    \multicolumn{1}{c}{\textbf{V}} & \multicolumn{1}{c}{\textbf{A}} & \textbf{Tempo gasto (em segundos)} \\ \hline
+    10.000                         & 10.000                         & 0.48                               \\ \hline
+    10.000                         & 10.000                         & 0.49                               \\ \hline
+    10.000                         & 1.000.000                      & 0.62                               \\ \hline
+    10.000                         & 10.000.000                     & 1.66                               \\ \hline
+    10.000                         & 50.000.000                     & 8.56                               \\ \hline
+    10.000                         & 95.000.000                     & 34.36                              \\ \hline
+    10.000                         & 99.990.000                     & Não finalizou                                   \\ \hline
+    \end{tabular}
+    \end{table}
+    
+    \item Abaixo, dois histogramas com valores diferentes de $V$ e $A$. Os valores eram o que eu esparava, isto é, bem distribuido e com alguns poucos casos destoantes.
+    
+    \begin{figure}[H]
+    \caption{$V = 100$, $A = 9000$, média $= 49.5$, variância $= 28.86$}
+    \centering
+    \includegraphics[width=0.75\textwidth]{Figure_1.png}
+    \end{figure}
+    
+    \begin{figure}[H]
+    \caption{$V = 1000$, $A = 5000$, média $= 499.5$, variância $= 288.67$}
+    \centering
+    \includegraphics[width=0.75\textwidth]{Figure_2.png}
+    \end{figure}
+    
+    \item Uma regra que é possível gerar vários grafos é uma que mistura os construtores do rei no xadrez e o de arcos randômicos (tipo 2). A ideia é inserir os arcos do rei no xadrez com uma probabilidade $p$ \textit{(abaixo definida como 0.5)}. A implementação em C é dada por:
+    \begin{lstlisting}
+        Graph GRAPHbuildChessKingRand (int n) {
+            Graph G = GRAPHinit (n * n);
+            Vertex l, c, i, j;
+            Vertex v;
+            double p = 0.5;
+            for (v = 0; v < n * n; v++) {
+                l = v / n; // Linha do vértice atual
+                c = v % n; // Coluna do vértice atual
+                for (i = l - 1; i <= l + 1; i++)
+                    for (j = c - 1; j <= c + 1; j++)
+                        if (i >= 0 && i < n && j >= 0 && j < n && rand() / (RAND_MAX + 1.0) < p)
+                            GRAPHinsertArc (G, v, i * n + j);
+            }
+            return G;
+        }
+    \end{lstlisting}
+    
+    Esse método constroi um grafo de forma aleatório e isso implica que executando esse método duas vezes não é garantido a construção do mesmo grafo. O grafo $\pi$ e o grafo da Monalisa não são aleatórios, uma vez que executando o método diversas vezes com a mesma entrada, é garantido que o mesmo grafo será construido.
+    
+    Realizando alguns experimentos com a regra sugerida (rei no xadrez com probabilidade na existência das arestas), foram feitos 5 experimentos com $p = 0.5$ e $n \in \{ 5, 10, 20, 50, 100 \}$ e foi avaliado algumas propriedades do grafo. São elas:
+    
+    \subitem (a) Grau de entrada e saída: sempre menor ou igual a 6 com uma média próxima de 2. Acredito que tenha sido próximo de 2, e não de 3 (o esperado), devido aos nós nos bordos e quinas.
+    \subitem (b) Embora possível, é bem raro a ocorrência de vértices isolados, fontes ou sorvedouros. Nos casos que foram testados, não houveram nenhuma ocorrência.
+    \subitem (c) Novamente, embora possível, não ocorreram casos onde o grafo é completo ou um torneio.
+    
+\end{enumerate}
+\end{document}

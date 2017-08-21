@@ -1,3 +1,6 @@
+#ifndef GRAPH_H
+#define GRAPH_H
+
 #define Vertex int
 
 struct graph;
@@ -44,3 +47,5 @@ int GRAPHtournament (Graph G);
 
 /* Metodo que verifica se G é completo */
 int GRAPHcomplete (Graph G);
+
+#endif
